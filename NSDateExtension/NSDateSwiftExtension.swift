@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum CalendarComponent {
+public enum TimeUnit {
     case Second
     case Minutes
     case Hour
@@ -23,7 +23,7 @@ public extension NSDate {
             return NSCalendar.currentCalendar()
     }
     
-    public class func dateByAddingCalendarComponent(calendarComponent: CalendarComponent)(date:NSDate, value: UInt) -> NSDate?  {
+    public class func dateByAddingCalendarComponent(calendarComponent: TimeUnit)(date:NSDate, value: UInt) -> NSDate?  {
         let val = Int(value)
         let dateComp = NSDateComponents()
         switch calendarComponent {
@@ -45,7 +45,7 @@ public extension NSDate {
         return calendar.dateByAddingComponents(dateComp, toDate: date, options: nil)
     }
     
-    public class func dateByRemovingCalendarComponent(calendarComponent: CalendarComponent)(date:NSDate, value: UInt) -> NSDate?  {
+    public class func dateByRemovingCalendarComponent(calendarComponent: TimeUnit)(date:NSDate, value: UInt) -> NSDate?  {
         let val = -Int(value)
         let dateComp = NSDateComponents()
         switch calendarComponent {
