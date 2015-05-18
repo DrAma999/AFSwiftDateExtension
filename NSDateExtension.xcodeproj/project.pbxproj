@@ -13,6 +13,7 @@
 		656A45C81B08CBBB00F84139 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 656A45C71B08CBBB00F84139 /* Images.xcassets */; };
 		656A45CB1B08CBBB00F84139 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 656A45C91B08CBBB00F84139 /* LaunchScreen.xib */; };
 		656A45D71B08CBBB00F84139 /* NSDateExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A45D61B08CBBB00F84139 /* NSDateExtensionTests.swift */; };
+		656A45E21B08CDF100F84139 /* NSDateSwiftExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A45E11B08CDF100F84139 /* NSDateSwiftExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		656A45D01B08CBBB00F84139 /* NSDateExtensionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NSDateExtensionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		656A45D51B08CBBB00F84139 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		656A45D61B08CBBB00F84139 /* NSDateExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSDateExtensionTests.swift; sourceTree = "<group>"; };
+		656A45E11B08CDF100F84139 /* NSDateSwiftExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateSwiftExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 		656A45BD1B08CBBB00F84139 /* NSDateExtension */ = {
 			isa = PBXGroup;
 			children = (
+				656A45E01B08CBC100F84139 /* NSDateExtension */,
 				656A45C01B08CBBB00F84139 /* AppDelegate.swift */,
 				656A45C21B08CBBB00F84139 /* ViewController.swift */,
 				656A45C41B08CBBB00F84139 /* Main.storyboard */,
@@ -110,6 +113,14 @@
 				656A45D51B08CBBB00F84139 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		656A45E01B08CBC100F84139 /* NSDateExtension */ = {
+			isa = PBXGroup;
+			children = (
+				656A45E11B08CDF100F84139 /* NSDateSwiftExtension.swift */,
+			);
+			name = NSDateExtension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -213,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				656A45C31B08CBBB00F84139 /* ViewController.swift in Sources */,
+				656A45E21B08CDF100F84139 /* NSDateSwiftExtension.swift in Sources */,
 				656A45C11B08CBBB00F84139 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

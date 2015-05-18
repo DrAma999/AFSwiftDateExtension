@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -16,6 +17,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let date = NSDate()
+        
+        let addMonth = NSDate.dateByAddingCalendarComponent(.Month)
+        
+        let newDate = addMonth(date: date, value: 2)
+        
+        let arrayDate = [NSDate(),NSDate.dateByAddingCalendarComponent(.Day)(date: NSDate(),value: 4),newDate]
+        
+        let mapArray = arrayDate.map{addMonth(date:$0!,value:3)}
+        
+        
+        
         return true
     }
 
