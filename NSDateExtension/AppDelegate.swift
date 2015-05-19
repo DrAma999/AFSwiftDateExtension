@@ -20,15 +20,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let date = NSDate()
         
-        let addMonth = NSDate.dateByAddingCalendarComponent(.Month)
+        let addMonth = NSDate.dateByAddingCalendarComponent(timeUnitMeasure: .Months)
         
         let newDate = addMonth(date: date, value: 2)
         
-        let arrayDate = [NSDate(),NSDate.dateByAddingCalendarComponent(.Day)(date: NSDate(),value: 4),newDate]
+        let arrayDate = [NSDate(),NSDate.dateByAddingCalendarComponent(timeUnitMeasure: .Days)(date: NSDate(),value: 4),newDate]
         
         let mapArray = arrayDate.map{addMonth(date:$0!,value:3)}
         
-        
+        let dateMinusOneDay = date - 1.days
         
         return true
     }
