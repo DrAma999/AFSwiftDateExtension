@@ -16,26 +16,6 @@ public enum TimeUnitMeasure {
     case Weeks
     case Months
     case Years
-    
-    func dateComponents(value:Int) -> NSDateComponents {
-        let cmpts = NSDateComponents()
-        switch (self) {
-        case .Seconds:
-            cmpts.second = value
-        case .Minutes:
-            cmpts.minute = value
-        case .Days:
-            cmpts.day = value
-        case .Months:
-            cmpts.month = value
-        case .Years:
-            cmpts.year = value
-        default:
-            cmpts.day = value
-        }
-        return cmpts
-    }
-    
 }
 
 
