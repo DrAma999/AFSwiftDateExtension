@@ -30,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let dateMinusOneDay = date - 1.days
         
+        
         return true
     }
 

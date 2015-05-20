@@ -14,6 +14,7 @@
 		656A45CB1B08CBBB00F84139 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 656A45C91B08CBBB00F84139 /* LaunchScreen.xib */; };
 		656A45D71B08CBBB00F84139 /* NSDateExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A45D61B08CBBB00F84139 /* NSDateExtensionTests.swift */; };
 		656A45E21B08CDF100F84139 /* NSDateSwiftExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A45E11B08CDF100F84139 /* NSDateSwiftExtension.swift */; };
+		659A31B21B0CA87D00ED7BB1 /* NSDateSwiftExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A45E11B08CDF100F84139 /* NSDateSwiftExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -233,6 +234,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				659A31B21B0CA87D00ED7BB1 /* NSDateSwiftExtension.swift in Sources */,
 				656A45D71B08CBBB00F84139 /* NSDateExtensionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -421,6 +423,7 @@
 				656A45DC1B08CBBB00F84139 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		656A45DD1B08CBBB00F84139 /* Build configuration list for PBXNativeTarget "NSDateExtensionTests" */ = {
 			isa = XCConfigurationList;
@@ -429,6 +432,7 @@
 				656A45DF1B08CBBB00F84139 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
