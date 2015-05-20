@@ -144,4 +144,28 @@ class NSDateExtensionTests: XCTestCase {
             
         }
     }
+    
+    func testOperatorOverload() {
+        let now = NSDate()
+        let now2 = NSDate()
+        
+        let equalFW = now.isEqualToDate(now2)
+        let equalEXT = now == now2
+        XCTAssertTrue(equalEXT == equalFW, "Test failed date should be equal")
+        
+        let laterDate = now2 + 1.days
+        let laterFW = laterDate!.laterDate(now)
+        let answer = laterDate! > now
+        let laterEXT = answer ? laterDate : now
+        XCTAssertTrue(laterEXT!.isEqualToDate(laterFW), "Test failed date should be equal")
+
+        
+        let earlierDate = now2 - 2.days
+        let earlierFW = earlierDate!.earlierDate(now)
+        let answer2 = earlierDate! < now
+        let earlierEXT = answer2 ? earlierDate : now
+        XCTAssertTrue(earlierEXT!.isEqualToDate(earlierFW), "Test failed date should be equal")
+
+    }
+    
 }

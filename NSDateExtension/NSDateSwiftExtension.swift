@@ -115,7 +115,6 @@ extension NSDate {
     
     :returns: a new `NSDate` as an optional
     */
-
     public class func dateByRemovingCalendarComponent(#timeUnitMeasure: TimeUnitMeasure)(date:NSDate, value: UInt) -> NSDate?  {
         let val = -Int(value)
         let dateComp = NSDateComponents()
@@ -137,7 +136,11 @@ extension NSDate {
         }
         return calendar.dateByAddingComponents(dateComp, toDate: date, options: nil)
     }
+    /**
+    Returns a date with time set to noon and other components inherited from the caller
     
+    :returns: a new `NSDate` with time at noon but the other componets equal to the original
+    */
     public func noonDate()-> NSDate? {
         var cmpts = NSDate.calendar.components(.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay, fromDate: self)
         cmpts.hour = 12
@@ -146,7 +149,11 @@ extension NSDate {
         cmpts.nanosecond = 0
         return  NSDate.calendar.dateFromComponents(cmpts)
     }
-
+    /**
+    Returns a date with time set to midnight and other components inherited from the caller
+    
+    :returns: a new `NSDate` with time at midnight but the other componets equal to the original
+    */
     public func mignightDate()-> NSDate? {
         var cmpts = NSDate.calendar.components(.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay, fromDate: self)
         cmpts.hour = 0
@@ -155,10 +162,19 @@ extension NSDate {
         cmpts.nanosecond = 0
         return  NSDate.calendar.dateFromComponents(cmpts)
     }
+    /**
+    Returns a string based on the time difference between now and the instance
     
-    // TODO: to be finished
-    public func textIntervalFromNow()-> String {
+    :returns: a `String` based on the time difference between now and the instance
+    */
+    public func textTimeAgoFromNow()-> String {
         let interval =  self.timeIntervalSinceNow
+        var dateFormatter: NSDateFormatter!
+        var onceToken: dispatch_once_t = 0
+        dispatch_once(&onceToken) { () -> Void in
+            dateFormatter = NSDateFormatter()
+        }
+        
         var agoBefore:String!
         if interval < 0 {
             agoBefore = NSLocalizedString("KEY_BEFORE_INTERVAL", comment: "Before")
@@ -170,26 +186,56 @@ extension NSDate {
         let absInterval:Int = abs(Int(interval))
         var unit: String!
         var number: Int!
+        var resto: Int!
+        var returnString: String!
+
         switch absInterval {
         case 0:
             unit = NSLocalizedString("KEY_NOW_INTERVAL", comment: "Now")
             number = absInterval
+            returnString = NSString(format:"%@",unit) as String
         case 1:
             unit = NSLocalizedString("KEY_SECOND_INTERVAL", comment: "Second")
             number = absInterval
+            returnString = NSString(format:"%@ %@ %@",String(number),unit, agoBefore) as String
         case 1..<60:
             unit = NSLocalizedString("KEY_SECONDS_INTERVAL", comment: "Seconds")
+            returnString = NSString(format:"%@ %@ %@",String(number),unit, agoBefore) as String
         case 60:
             unit = NSLocalizedString("KEY_MINUTE_INTERVAL", comment: "Minute")
             number = absInterval/60
-        case 60..<600:
+            returnString = NSString(format:"%@ %@ %@",String(number),unit, agoBefore) as String
+        case 60..<3600:
             unit = NSLocalizedString("KEY_MINUTES_INTERVAL", comment: "Minutes")
             number = absInterval/60
+            returnString = NSString(format:"%@ %@ %@",String(number),unit, agoBefore) as String
+        case 3600:
+            unit = NSLocalizedString("KEY_HOUR_INTERVAL", comment: "Hour")
+            number = absInterval/3600
+            returnString = NSString(format:"%@ %@ %@",String(number),unit, agoBefore) as String
+        case 3600..<86400:
+            unit = NSLocalizedString("KEY_TODAY_INTERVAL", comment: "Today")
+            dateFormatter.dateStyle = .NoStyle
+            dateFormatter.dateStyle = .MediumStyle
+            let formattedTime = dateFormatter.stringFromDate(self)
+            returnString = NSString(format:"%@ at %@",unit, formattedTime) as String
+        case 86400:
+            unit = NSLocalizedString("KEY_YESTERDAY_INTERVAL", comment: "Yesterday")
+            returnString = NSString(format:"%@",unit) as String
+        case 86400..<172800:
+            unit = NSLocalizedString("KEY_YESTERDAY_INTERVAL", comment: "Yesterday")
+            dateFormatter.dateStyle = .NoStyle
+            dateFormatter.dateStyle = .MediumStyle
+            let formattedTime = dateFormatter.stringFromDate(self)
+            returnString = NSString(format:"%@ at %@",unit, formattedTime) as String
         default:
-            unit = ""
+            dateFormatter.dateStyle = .MediumStyle
+            dateFormatter.dateStyle = .MediumStyle
+            let formattedTime = dateFormatter.stringFromDate(self)
+            returnString = NSString(format:"%@", formattedTime) as String
         }
         // TODO: absInterval multiplier
-        return  "\(number) \(unit) \(agoBefore)"
+        return returnString
     }
 }
 
@@ -231,7 +277,13 @@ func <(left: NSDate, right: NSDate) -> Bool {
     return isEarlier
 }
 func ==(left: NSDate, right: NSDate) -> Bool {
-    return left.timeIntervalSince1970 == right.timeIntervalSince1970
+    let result = left.compare(right)
+    var isEqual = false
+    if (result == .OrderedSame) {
+        isEqual = true
+    }
+    return isEqual
+
 }
 
 
