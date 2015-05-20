@@ -31,15 +31,15 @@ Compare dates using common compare operators: >, >=, <, <=
 let now = NSDate()
 let now2 = NSDate()
 let answer = now == now2
-println("\(answer") // true
+println("\(answer)") // true
 
 let laterDate = now2 + 1.days
 let answer = laterDate! > now
-println("\(answer") // true
+println("\(answer)") // true
         
 let earlierDate = now2 - 2.days
 let answer2 = earlierDate! < now
-println("\(answer2") // true
+println("\(answer2)") // true
 
 ```
 ### Install
