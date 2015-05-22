@@ -5,81 +5,44 @@
 //  Created by Andrea Finollo on 17/05/15.
 //  Copyright (c) 2015 CloudInTouch. All rights reserved.
 //
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 
 import Foundation
 
-public enum TimeUnitMeasure {
-    case Seconds
-    case Minutes
-    case Hours
-    case Days
-    case Weeks
-    case Months
-    case Years
-}
-
-
-struct TimeFrame {
-    var value: Int
-    var unitMeasure: TimeUnitMeasure
-    
-    private func dateComponents() -> NSDateComponents {
-        let cmpts = NSDateComponents()
-        switch (self.unitMeasure) {
-        case .Seconds:
-            cmpts.second = value
-        case .Minutes:
-            cmpts.minute = value
-        case .Hours:
-            cmpts.hour = value
-            break
-        case .Days:
-            cmpts.day = value
-        case .Weeks:
-            cmpts.weekOfYear = value
-            break
-        case .Months:
-            cmpts.month = value
-        case .Years:
-            cmpts.year = value
-        default:
-            cmpts.day = value
-        }
-        return cmpts
-    }
-    
-}
-
-
-extension Int {
-    var seconds: TimeFrame {
-        return TimeFrame(value: self, unitMeasure:.Seconds);
-    }
-    var minutes: TimeFrame {
-        return TimeFrame(value: self, unitMeasure:.Minutes);
-    }
-    var hours: TimeFrame {
-        return TimeFrame(value: self, unitMeasure:.Hours);
-    }
-    var days: TimeFrame {
-        return TimeFrame(value: self, unitMeasure:.Days);
-    }
-    var weeks: TimeFrame {
-        return TimeFrame(value: self, unitMeasure:.Weeks);
-    }
-    var months: TimeFrame {
-        return TimeFrame(value: self, unitMeasure:.Months);
-    }
-    var years: TimeFrame {
-        return TimeFrame(value: self, unitMeasure:.Years);
-    }
-
-}
 
 extension NSDate {
-    static var calendar: NSCalendar {
-            return NSCalendar.currentCalendar()
-    }
+    
+    
+    var year: Int { return components().year }
+    var month: Int { return components().month }
+    var week: Int { return components().weekOfYear }
+    var day: Int { return components().day }
+    var hour: Int { return components().hour }
+    var minute: Int { return components().minute }
+    var seconds: Int { return components().second }
+    var weekday: Int { return components().weekday }
+    var ordinalWeekday: Int { return self.components().weekdayOrdinal }
+    
+    var daysInMonth: Int { return NSDate.calendar.rangeOfUnit(NSCalendarUnit.CalendarUnitDay, inUnit:.CalendarUnitMonth, forDate: self).length }
+    
+    var daysInYear: Int { return NSDate.calendar.rangeOfUnit(NSCalendarUnit.CalendarUnitDay, inUnit:.CalendarUnitYear, forDate: self).length }
+    
     /**
     Curryed function to add a time unit for a specific value
     
@@ -169,13 +132,7 @@ extension NSDate {
     */
     public func textTimeAgoFromNow()-> String {
         let interval =  self.timeIntervalSinceNow
-        var dateFormatter: NSDateFormatter!
-        var onceToken: dispatch_once_t = 0
-        dispatch_once(&onceToken) { () -> Void in
-            dateFormatter = NSDateFormatter()
-        }
-        
-        var agoBefore:String!
+        let agoBefore:String
         if interval < 0 {
             agoBefore = NSLocalizedString("KEY_BEFORE_INTERVAL", comment: "Before")
         }
@@ -193,51 +150,135 @@ extension NSDate {
         case 0:
             unit = NSLocalizedString("KEY_NOW_INTERVAL", comment: "Now")
             number = absInterval
-            returnString = NSString(format:"%@",unit) as String
+            returnString = NSString.localizedStringWithFormat("%@",unit) as String
         case 1:
             unit = NSLocalizedString("KEY_SECOND_INTERVAL", comment: "Second")
             number = absInterval
-            returnString = NSString(format:"%@ %@ %@",String(number),unit, agoBefore) as String
+            returnString =  NSString.localizedStringWithFormat("%@ %@ %@",String(number),unit, agoBefore) as String
         case 1..<60:
             unit = NSLocalizedString("KEY_SECONDS_INTERVAL", comment: "Seconds")
-            returnString = NSString(format:"%@ %@ %@",String(number),unit, agoBefore) as String
+            returnString =  NSString.localizedStringWithFormat("%@ %@ %@",String(number),unit, agoBefore) as String
         case 60:
             unit = NSLocalizedString("KEY_MINUTE_INTERVAL", comment: "Minute")
             number = absInterval/60
-            returnString = NSString(format:"%@ %@ %@",String(number),unit, agoBefore) as String
+            returnString =  NSString.localizedStringWithFormat("%@ %@ %@",String(number),unit, agoBefore) as String
         case 60..<3600:
             unit = NSLocalizedString("KEY_MINUTES_INTERVAL", comment: "Minutes")
             number = absInterval/60
-            returnString = NSString(format:"%@ %@ %@",String(number),unit, agoBefore) as String
+            returnString =  NSString.localizedStringWithFormat("%@ %@ %@",String(number),unit, agoBefore) as String
         case 3600:
             unit = NSLocalizedString("KEY_HOUR_INTERVAL", comment: "Hour")
             number = absInterval/3600
-            returnString = NSString(format:"%@ %@ %@",String(number),unit, agoBefore) as String
+            returnString =  NSString.localizedStringWithFormat("%@ %@ %@",String(number),unit, agoBefore) as String
         case 3600..<86400:
             unit = NSLocalizedString("KEY_TODAY_INTERVAL", comment: "Today")
-            dateFormatter.dateStyle = .NoStyle
-            dateFormatter.dateStyle = .MediumStyle
-            let formattedTime = dateFormatter.stringFromDate(self)
-            returnString = NSString(format:"%@ at %@",unit, formattedTime) as String
+            NSDate.dateFormatter.dateStyle = .NoStyle
+            NSDate.dateFormatter.dateStyle = .MediumStyle
+            let formattedTime = NSDate.dateFormatter.stringFromDate(self)
+            returnString =  NSString.localizedStringWithFormat("%@ at %@",unit, formattedTime) as String
         case 86400:
             unit = NSLocalizedString("KEY_YESTERDAY_INTERVAL", comment: "Yesterday")
-            returnString = NSString(format:"%@",unit) as String
+            returnString =  NSString.localizedStringWithFormat("%@",unit) as String
         case 86400..<172800:
             unit = NSLocalizedString("KEY_YESTERDAY_INTERVAL", comment: "Yesterday")
-            dateFormatter.dateStyle = .NoStyle
-            dateFormatter.dateStyle = .MediumStyle
-            let formattedTime = dateFormatter.stringFromDate(self)
-            returnString = NSString(format:"%@ at %@",unit, formattedTime) as String
+            NSDate.dateFormatter.dateStyle = .NoStyle
+            NSDate.dateFormatter.dateStyle = .MediumStyle
+            let formattedTime = NSDate.dateFormatter.stringFromDate(self)
+            returnString =  NSString.localizedStringWithFormat("%@ at %@",unit, formattedTime) as String
         default:
-            dateFormatter.dateStyle = .MediumStyle
-            dateFormatter.dateStyle = .MediumStyle
-            let formattedTime = dateFormatter.stringFromDate(self)
-            returnString = NSString(format:"%@", formattedTime) as String
+            NSDate.dateFormatter.dateStyle = .MediumStyle
+            NSDate.dateFormatter.dateStyle = .MediumStyle
+            let formattedTime = NSDate.dateFormatter.stringFromDate(self)
+            returnString =  NSString.localizedStringWithFormat("%@", formattedTime) as String
         }
-        // TODO: absInterval multiplier
         return returnString
     }
+    
+    private func components() -> NSDateComponents {
+        return NSCalendar.currentCalendar().components(NSDate.calendarFlags, fromDate: self)
+    }
+    
+    
+    static var calendar: NSCalendar {
+        return NSCalendar.currentCalendar()
+    }
+    static var dateFormatter: NSDateFormatter  {
+        return NSDateFormatter()
+    }
+    static var calendarFlags: NSCalendarUnit {
+        return (.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay | .CalendarUnitWeekOfYear | .CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond  | .CalendarUnitWeekday | .CalendarUnitWeekdayOrdinal | .CalendarUnitWeekOfYear)
+    }
 }
+
+
+public enum TimeUnitMeasure {
+    case Seconds
+    case Minutes
+    case Hours
+    case Days
+    case Weeks
+    case Months
+    case Years
+}
+
+
+struct TimeFrame {
+    var value: Int
+    var unitMeasure: TimeUnitMeasure
+    
+    private func dateComponents() -> NSDateComponents {
+        let cmpts = NSDateComponents()
+        switch (self.unitMeasure) {
+        case .Seconds:
+            cmpts.second = value
+        case .Minutes:
+            cmpts.minute = value
+        case .Hours:
+            cmpts.hour = value
+            break
+        case .Days:
+            cmpts.day = value
+        case .Weeks:
+            cmpts.weekOfYear = value
+            break
+        case .Months:
+            cmpts.month = value
+        case .Years:
+            cmpts.year = value
+        default:
+            cmpts.day = value
+        }
+        return cmpts
+    }
+    
+}
+
+
+extension Int {
+    var seconds: TimeFrame {
+        return TimeFrame(value: self, unitMeasure:.Seconds);
+    }
+    var minutes: TimeFrame {
+        return TimeFrame(value: self, unitMeasure:.Minutes);
+    }
+    var hours: TimeFrame {
+        return TimeFrame(value: self, unitMeasure:.Hours);
+    }
+    var days: TimeFrame {
+        return TimeFrame(value: self, unitMeasure:.Days);
+    }
+    var weeks: TimeFrame {
+        return TimeFrame(value: self, unitMeasure:.Weeks);
+    }
+    var months: TimeFrame {
+        return TimeFrame(value: self, unitMeasure:.Months);
+    }
+    var years: TimeFrame {
+        return TimeFrame(value: self, unitMeasure:.Years);
+    }
+    
+}
+
 
 // MARK: NSDate operators overload
 
@@ -320,8 +361,6 @@ func -= (left: NSDate, right: TimeFrame) -> NSDate? {
 func += (left: NSDate, right: TimeFrame) -> NSDate? {
     return NSCalendar.currentCalendar().dateByAddingComponents(right.dateComponents(), toDate: left, options: nil)
 }
-
-
 
 
 

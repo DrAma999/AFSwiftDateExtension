@@ -168,4 +168,14 @@ class NSDateExtensionTests: XCTestCase {
 
     }
     
+    func testComponents() {
+        let noonDate = NSDate().noonDate()!
+        let mignightDate = NSDate().mignightDate()!
+        XCTAssertTrue(noonDate.hour == 12, "Test failed must be noon")
+        XCTAssertTrue(mignightDate.hour == 00, "Test failed muste be midnight (00)")
+        XCTAssertTrue(mignightDate.hour != noonDate.hour, "Test failed hour component should be different")
+
+        
+    }
+    
 }
