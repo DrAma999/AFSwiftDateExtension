@@ -17,6 +17,14 @@ NSDate extension that makes easier to operate with NSDate, its built on the top 
 
 ## Usage
 
+### Create dates directly from components
+```swift
+let d1 = NSDate.dateWithTime(hour: 22)
+let d2 = NSDate.dateWithTime(hour: 22, minutes:10)
+let d3 = NSDate.dateWithComponents(year: 1978, month: 5, day: 24, hour: 12);
+```
+
+
 ### Add/Remove date componets using common plus and minus operator
 Thanks to the Int extension is possible to add (or remove) seconds, minutes, hours days, weeks, months and years by simply those commands.
 ```swift
