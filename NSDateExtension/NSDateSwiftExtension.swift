@@ -29,19 +29,41 @@ import Foundation
 extension NSDate {
     
     
-    var year: Int { return components().year }
-    var month: Int { return components().month }
-    var week: Int { return components().weekOfYear }
-    var day: Int { return components().day }
-    var hour: Int { return components().hour }
-    var minute: Int { return components().minute }
-    var seconds: Int { return components().second }
-    var weekday: Int { return components().weekday }
+    var year: Int { return components(flag: .CalendarUnitYear).year }
+    var month: Int { return components(flag: .CalendarUnitMonth).month }
+    var week: Int { return components(flag: .CalendarUnitWeekOfYear).weekOfYear }
+    var day: Int { return components(flag: .CalendarUnitDay).day }
+    var hour: Int { return components(flag: .CalendarUnitHour).hour }
+    var minute: Int { return components(flag: .CalendarUnitMinute).minute }
+    var second: Int { return components(flag: .CalendarUnitSecond).second }
+    var weekday: Int { return components(flag: .CalendarUnitWeekday).weekday }
     var ordinalWeekday: Int { return self.components().weekdayOrdinal }
     
     var daysInMonth: Int { return NSDate.calendar.rangeOfUnit(NSCalendarUnit.CalendarUnitDay, inUnit:.CalendarUnitMonth, forDate: self).length }
     
     var daysInYear: Int { return NSDate.calendar.rangeOfUnit(NSCalendarUnit.CalendarUnitDay, inUnit:.CalendarUnitYear, forDate: self).length }
+    
+    
+    public class func dateWithTime(hour hours:Int = 0, minutes:Int = 0, seconds:Int = 0) -> NSDate? {
+        return  NSDate.dateWithComponents(year: nil , month: nil, day: nil, hour: hours, minutes: minutes, seconds: seconds)
+    }
+    
+    public class func dateWithComponents(#year:Int?, month:Int?, day:Int?,  hour:Int = 0, minutes:Int = 0, seconds:Int = 0) -> NSDate? {
+        let cmpts = NSDate.calendar.components(.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay | .CalendarUnitEra, fromDate: NSDate())
+        if let y = year {
+            cmpts.year = y
+        }
+        if let m = month {
+            cmpts.month = m
+        }
+        if let d = day {
+            cmpts.day = d
+        }
+        cmpts.hour = hour
+        cmpts.minute = minutes
+        cmpts.second = seconds
+        return  NSDate.calendar.dateFromComponents(cmpts)
+    }
     
     /**
     Curryed function to add a time unit for a specific value
@@ -105,7 +127,7 @@ extension NSDate {
     :returns: a new `NSDate` with time at noon but the other componets equal to the original
     */
     public func noonDate()-> NSDate? {
-        var cmpts = NSDate.calendar.components(.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay, fromDate: self)
+        var cmpts = NSDate.calendar.components(.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay | .CalendarUnitEra, fromDate: self)
         cmpts.hour = 12
         cmpts.minute = 0
         cmpts.second = 0
@@ -118,7 +140,7 @@ extension NSDate {
     :returns: a new `NSDate` with time at midnight but the other componets equal to the original
     */
     public func mignightDate()-> NSDate? {
-        var cmpts = NSDate.calendar.components(.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay, fromDate: self)
+        var cmpts = NSDate.calendar.components(.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay | .CalendarUnitEra, fromDate: self)
         cmpts.hour = 0
         cmpts.minute = 0
         cmpts.second = 0
@@ -194,8 +216,8 @@ extension NSDate {
         return returnString
     }
     
-    private func components() -> NSDateComponents {
-        return NSCalendar.currentCalendar().components(NSDate.calendarFlags, fromDate: self)
+    private func components(flag:NSCalendarUnit = NSDate.calendarFlags) -> NSDateComponents {
+        return NSCalendar.currentCalendar().components(flag, fromDate: self)
     }
     
     
@@ -206,7 +228,7 @@ extension NSDate {
         return NSDateFormatter()
     }
     static var calendarFlags: NSCalendarUnit {
-        return (.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay | .CalendarUnitWeekOfYear | .CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond  | .CalendarUnitWeekday | .CalendarUnitWeekdayOrdinal | .CalendarUnitWeekOfYear)
+        return (.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay | .CalendarUnitWeekOfYear | .CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond  | .CalendarUnitWeekday | .CalendarUnitWeekdayOrdinal | .CalendarUnitEra)
     }
 }
 
@@ -222,7 +244,7 @@ public enum TimeUnitMeasure {
 }
 
 
-struct TimeFrame {
+struct TimeFrameUnit {
     var value: Int
     var unitMeasure: TimeUnitMeasure
     
@@ -255,26 +277,26 @@ struct TimeFrame {
 
 
 extension Int {
-    var seconds: TimeFrame {
-        return TimeFrame(value: self, unitMeasure:.Seconds);
+    var seconds: TimeFrameUnit {
+        return TimeFrameUnit(value: self, unitMeasure:.Seconds);
     }
-    var minutes: TimeFrame {
-        return TimeFrame(value: self, unitMeasure:.Minutes);
+    var minutes: TimeFrameUnit {
+        return TimeFrameUnit(value: self, unitMeasure:.Minutes);
     }
-    var hours: TimeFrame {
-        return TimeFrame(value: self, unitMeasure:.Hours);
+    var hours: TimeFrameUnit {
+        return TimeFrameUnit(value: self, unitMeasure:.Hours);
     }
-    var days: TimeFrame {
-        return TimeFrame(value: self, unitMeasure:.Days);
+    var days: TimeFrameUnit {
+        return TimeFrameUnit(value: self, unitMeasure:.Days);
     }
-    var weeks: TimeFrame {
-        return TimeFrame(value: self, unitMeasure:.Weeks);
+    var weeks: TimeFrameUnit {
+        return TimeFrameUnit(value: self, unitMeasure:.Weeks);
     }
-    var months: TimeFrame {
-        return TimeFrame(value: self, unitMeasure:.Months);
+    var months: TimeFrameUnit {
+        return TimeFrameUnit(value: self, unitMeasure:.Months);
     }
-    var years: TimeFrame {
-        return TimeFrame(value: self, unitMeasure:.Years);
+    var years: TimeFrameUnit {
+        return TimeFrameUnit(value: self, unitMeasure:.Years);
     }
     
 }
@@ -328,6 +350,9 @@ func ==(left: NSDate, right: NSDate) -> Bool {
 }
 
 
+
+
+
 /**
 Operators that return the time interval between two dates
 
@@ -344,21 +369,21 @@ func >-< (left: NSDate, right: NSDate) -> NSTimeInterval {
 
 // MARK: NSDate and TimeFrame operators overload
 
-func - (left: NSDate, right: TimeFrame) -> NSDate? {
-    let negRight = TimeFrame(value: -right.value, unitMeasure: right.unitMeasure)
+func - (left: NSDate, right: TimeFrameUnit) -> NSDate? {
+    let negRight = TimeFrameUnit(value: -right.value, unitMeasure: right.unitMeasure)
     return NSCalendar.currentCalendar().dateByAddingComponents(negRight.dateComponents(), toDate: left, options: nil)
 }
 
-func + (left: NSDate, right: TimeFrame) -> NSDate? {
+func + (left: NSDate, right: TimeFrameUnit) -> NSDate? {
     return NSCalendar.currentCalendar().dateByAddingComponents(right.dateComponents(), toDate: left, options: nil)
 }
 
-func -= (left: NSDate, right: TimeFrame) -> NSDate? {
-    let negRight = TimeFrame(value: -right.value, unitMeasure: right.unitMeasure)
+func -= (left: NSDate, right: TimeFrameUnit) -> NSDate? {
+    let negRight = TimeFrameUnit(value: -right.value, unitMeasure: right.unitMeasure)
     return NSCalendar.currentCalendar().dateByAddingComponents(negRight.dateComponents(), toDate: left, options: nil)
 }
 
-func += (left: NSDate, right: TimeFrame) -> NSDate? {
+func += (left: NSDate, right: TimeFrameUnit) -> NSDate? {
     return NSCalendar.currentCalendar().dateByAddingComponents(right.dateComponents(), toDate: left, options: nil)
 }
 
