@@ -51,7 +51,7 @@ println("\(answer2)") // true
 
 ```
 ### Install
-Just copy `NSDateSwiftExtension.swift` `file in your project.
+Just copy `AFDateSwiftExtension.swift` `file in your project.
 
 ### Thanks
 Even if I was already working on that extension I must tell the [article](http://codingventures.com/articles/Dating-Swift/)  from Karatal blog has really inspired me
