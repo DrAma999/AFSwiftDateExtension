@@ -32,6 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let string = dateMinusOneDay?.textTimeAgoFromNow()
         
+        let d = NSDate.dateWithTime(hour: 22)
+        
+        
         return true
     }
 

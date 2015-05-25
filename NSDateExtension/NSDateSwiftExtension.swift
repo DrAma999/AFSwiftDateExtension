@@ -43,11 +43,31 @@ extension NSDate {
     
     var daysInYear: Int { return NSDate.calendar.rangeOfUnit(NSCalendarUnit.CalendarUnitDay, inUnit:.CalendarUnitYear, forDate: self).length }
     
+    /**
+    Creates a date with time components specified but the others are inherited from current date
     
+    :param: hours    hour to set in the new `NSDate`, zero by default. This parameter can be omitted
+    :param: minutes  minutes to set in the new `NSDate`, zero by default. This parameter can be omitted
+    :param: seconds  second to set in the new `NSDate`, zero by default. This parameter can be omitted
+    
+    :returns: a new `NSDate` as an optional
+    */
     public class func dateWithTime(hour hours:Int = 0, minutes:Int = 0, seconds:Int = 0) -> NSDate? {
         return  NSDate.dateWithComponents(year: nil , month: nil, day: nil, hour: hours, minutes: minutes, seconds: seconds)
     }
     
+    /**
+    Creates a date with time components specified but the others are inherited from current date
+    
+    :param: year     year to set in the new `NSDate`, if nil il provided the value dafult value will be the current date year
+    :param: month    month to set in the new `NSDate`, if nil il provided the value dafult value will be the current date month
+    :param: day      day to set in the new `NSDate`, if nil il provided the value dafult value will be the current date day
+    :param: hours    hour to set in the new `NSDate`, zero by default. This parameter can be omitted
+    :param: minutes  minutes to set in the new `NSDate`, zero by default. This parameter can be omitted
+    :param: seconds  second to set in the new `NSDate`, zero by default. This parameter can be omitted
+    
+    :returns: a new `NSDate` as an optional
+    */
     public class func dateWithComponents(#year:Int?, month:Int?, day:Int?,  hour:Int = 0, minutes:Int = 0, seconds:Int = 0) -> NSDate? {
         let cmpts = NSDate.calendar.components(.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay | .CalendarUnitEra, fromDate: NSDate())
         if let y = year {
