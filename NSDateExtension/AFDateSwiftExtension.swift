@@ -236,6 +236,9 @@ extension NSDate {
         return returnString
     }
     
+    /**
+    Returns a tuple for components requested in this format (hour:Int?, minute:Int?, second:Int?, day:Int?, month:Int?, year:Int?)
+    */
     subscript(indexes: TimeUnitMeasure...) -> (hour:Int?, minute:Int?, second:Int?, day:Int?, month:Int?, year:Int?) {
         var value:(hour:Int?, minute:Int?, second:Int?, day:Int?, month:Int?, year:Int?) ;
         for idx in indexes {
@@ -259,13 +262,14 @@ extension NSDate {
         }
         return value
     }
-    
+    /**
+    Returns an Int for the component requested
+    */
     subscript(index: TimeUnitMeasure) -> Int {
         return convertTimeUnitIntoDateValues(index, forDate: self)
     }
 
     
-
     private func components(flag:NSCalendarUnit = NSDate.calendarFlags) -> NSDateComponents {
         return NSCalendar.currentCalendar().components(flag, fromDate: self)
     }
