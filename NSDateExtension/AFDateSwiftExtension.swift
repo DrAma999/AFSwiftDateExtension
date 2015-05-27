@@ -236,10 +236,54 @@ extension NSDate {
         return returnString
     }
     
+
     private func components(flag:NSCalendarUnit = NSDate.calendarFlags) -> NSDateComponents {
         return NSCalendar.currentCalendar().components(flag, fromDate: self)
     }
     
+    private class func dateByChangingTimeUnit(timeUnitMeasure: TimeUnitMeasure, withValue val:Int, fromDate date:NSDate ) -> NSDate? {
+        let val = Int(val)
+        let dateComp = date.components()
+        switch timeUnitMeasure {
+        case .Seconds:
+            dateComp.second = val
+        case .Minutes:
+            dateComp.minute = val
+        case .Hours:
+            dateComp.hour = val
+        case .Days:
+            dateComp.day = val
+        case .Weeks:
+            dateComp.weekOfYear = val
+        case .Months:
+            dateComp.month = val
+        case .Years:
+            dateComp.year = val
+        }
+        return NSDate.calendar.dateFromComponents(dateComp)
+    }
+    
+    private func changingTimeUnit(timeUnitMeasure: TimeUnitMeasure, withValue val:Int) -> NSDate? {
+        let val = Int(val)
+        let dateComp = self.components()
+        switch timeUnitMeasure {
+        case .Seconds:
+            dateComp.second = val
+        case .Minutes:
+            dateComp.minute = val
+        case .Hours:
+            dateComp.hour = val
+        case .Days:
+            dateComp.day = val
+        case .Weeks:
+            dateComp.weekOfYear = val
+        case .Months:
+            dateComp.month = val
+        case .Years:
+            dateComp.year = val
+        }
+        return NSDate.calendar.dateFromComponents(dateComp)
+    }
     
     static var calendar: NSCalendar {
         return NSCalendar.currentCalendar()
@@ -250,6 +294,29 @@ extension NSDate {
     static var calendarFlags: NSCalendarUnit {
         return (.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay | .CalendarUnitWeekOfYear | .CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond  | .CalendarUnitWeekday | .CalendarUnitWeekdayOrdinal | .CalendarUnitEra)
     }
+    
+    subscript(index: TimeUnitMeasure) -> Int {
+            let value:Int;
+            switch index {
+            case .Seconds:
+                value = self.second
+            case .Minutes:
+                value = self.minute
+            case .Hours:
+                value = self.hour
+            case .Days:
+                value = self.day
+            case .Weeks:
+                value = self.week
+            case .Months:
+                value = self.month
+            case .Years:
+                value = self.year
+            }
+            return value
+    }
+
+
 }
 
 
@@ -264,7 +331,7 @@ public enum TimeUnitMeasure {
 }
 
 
-struct TimeFrameUnit {
+public struct TimeFrameUnit {
     var value: Int
     var unitMeasure: TimeUnitMeasure
     
