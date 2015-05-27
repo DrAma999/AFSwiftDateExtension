@@ -59,9 +59,9 @@ extension NSDate {
     /**
     Creates a date with time components specified but the others are inherited from current date
     
-    :param: year     year to set in the new `NSDate`, if nil il provided the value dafult value will be the current date year
-    :param: month    month to set in the new `NSDate`, if nil il provided the value dafult value will be the current date month
-    :param: day      day to set in the new `NSDate`, if nil il provided the value dafult value will be the current date day
+    :param: year     year to set in the new `NSDate`, if nil the value default value will be the current date year
+    :param: month    month to set in the new `NSDate`, if nil the value default value will be the current date month
+    :param: day      day to set in the new `NSDate`, if nil the value default value will be the current date day
     :param: hours    hour to set in the new `NSDate`, zero by default. This parameter can be omitted
     :param: minutes  minutes to set in the new `NSDate`, zero by default. This parameter can be omitted
     :param: seconds  second to set in the new `NSDate`, zero by default. This parameter can be omitted
