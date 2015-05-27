@@ -35,8 +35,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let d1 = NSDate.dateWithTime(hour: 22)
         let d2 = NSDate.dateWithTime(hour: 22, minutes:10)
         let d3 = NSDate.dateWithComponents(year: 1978, month: 5, day: 24, hour: 12);
-        let val = d3![.Hours]
         
+        let val = d3![.Months]
+        
+        let tupla = d3![.Hours,.Days,.Months]
+        println("Hour:\(tupla.hour!) Days:\(tupla.day!) Month:\(tupla.month!)")
         return true
     }
 

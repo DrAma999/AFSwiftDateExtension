@@ -10,6 +10,7 @@ NSDate extension that makes easier to operate with NSDate, its built on the top 
 - Get interval between dates using that custom operator >-< 
 - Add date components by using aritmethic operators
 - Curryed functions
+- Use subscripting to access single or group of date components
 
 ## Requirements
 - iOS7 or above
@@ -18,12 +19,20 @@ NSDate extension that makes easier to operate with NSDate, its built on the top 
 ## Usage
 
 ### Create dates directly from components
+Embracing default values for parameters in SWIFT is possible to omit hour,minute and second arguments while creating a date, those will be set to 0.
 ```swift
 let d1 = NSDate.dateWithTime(hour: 22)
 let d2 = NSDate.dateWithTime(hour: 22, minutes:10)
 let d3 = NSDate.dateWithComponents(year: 1978, month: 5, day: 24, hour: 12);
 ```
-
+### Use subscripting to read components
+Using subsscript is possible to obtain only one component or group of componets in a touple of optionals (hour:Int?, minute:Int?, second:Int?, day:Int?, month:Int?, year:Int?). Values not requested are retuned as nil.
+```swift
+let d3 = NSDate.dateWithComponents(year: 1978, month: 5, day: 24, hour: 12);
+let val = d3![.Months] // 5
+let tupla = d3![.Hours,.Days,.Months] // (hour:12, nil, nil, day:24, month:5, nil)
+println("Hour:\(tupla.hour!) Days:\(tupla.day!) Month:\(tupla.month!)")
+```
 
 ### Add/Remove date componets using common plus and minus operator
 Thanks to the Int extension is possible to add (or remove) seconds, minutes, hours days, weeks, months and years by simply those commands.

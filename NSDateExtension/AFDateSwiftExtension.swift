@@ -202,15 +202,15 @@ extension NSDate {
             returnString =  NSString.localizedStringWithFormat("%@ %@ %@",String(number),unit, agoBefore) as String
         case 60:
             unit = NSLocalizedString("KEY_MINUTE_INTERVAL", comment: "Minute")
-            number = absInterval/60
+            number = absInterval/kSecondsInMinute
             returnString =  NSString.localizedStringWithFormat("%@ %@ %@",String(number),unit, agoBefore) as String
         case 60..<3600:
             unit = NSLocalizedString("KEY_MINUTES_INTERVAL", comment: "Minutes")
-            number = absInterval/60
+            number = absInterval/kSecondsInMinute
             returnString =  NSString.localizedStringWithFormat("%@ %@ %@",String(number),unit, agoBefore) as String
         case 3600:
             unit = NSLocalizedString("KEY_HOUR_INTERVAL", comment: "Hour")
-            number = absInterval/3600
+            number = absInterval/kSecondsInHour
             returnString =  NSString.localizedStringWithFormat("%@ %@ %@",String(number),unit, agoBefore) as String
         case 3600..<86400:
             unit = NSLocalizedString("KEY_TODAY_INTERVAL", comment: "Today")
@@ -235,6 +235,35 @@ extension NSDate {
         }
         return returnString
     }
+    
+    subscript(indexes: TimeUnitMeasure...) -> (hour:Int?, minute:Int?, second:Int?, day:Int?, month:Int?, year:Int?) {
+        var value:(hour:Int?, minute:Int?, second:Int?, day:Int?, month:Int?, year:Int?) ;
+        for idx in indexes {
+            let num = convertTimeUnitIntoDateValues(idx, forDate: self)
+            switch idx {
+            case .Seconds:
+                value.second = num
+            case .Minutes:
+                value.minute = num
+            case .Hours:
+                value.hour = num
+            case .Days:
+                value.day = num
+            case .Months:
+                value.month = num
+            case .Years:
+                value.year = num
+            case .Weeks:
+                assert(true, "Weeks is not a valid index")
+            }
+        }
+        return value
+    }
+    
+    subscript(index: TimeUnitMeasure) -> Int {
+        return convertTimeUnitIntoDateValues(index, forDate: self)
+    }
+
     
 
     private func components(flag:NSCalendarUnit = NSDate.calendarFlags) -> NSDateComponents {
@@ -263,26 +292,25 @@ extension NSDate {
         return NSDate.calendar.dateFromComponents(dateComp)
     }
     
-    private func changingTimeUnit(timeUnitMeasure: TimeUnitMeasure, withValue val:Int) -> NSDate? {
-        let val = Int(val)
-        let dateComp = self.components()
-        switch timeUnitMeasure {
+    private func convertTimeUnitIntoDateValues(timeunit:TimeUnitMeasure, forDate date:NSDate) ->Int {
+        let value:Int
+        switch timeunit {
         case .Seconds:
-            dateComp.second = val
+            value = date.second
         case .Minutes:
-            dateComp.minute = val
+            value = date.minute
         case .Hours:
-            dateComp.hour = val
+            value = date.hour
         case .Days:
-            dateComp.day = val
-        case .Weeks:
-            dateComp.weekOfYear = val
+            value = date.day
         case .Months:
-            dateComp.month = val
+            value = date.month
         case .Years:
-            dateComp.year = val
+            value = date.year
+        case .Weeks:
+            value = date.week
         }
-        return NSDate.calendar.dateFromComponents(dateComp)
+        return value
     }
     
     static var calendar: NSCalendar {
@@ -295,28 +323,6 @@ extension NSDate {
         return (.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay | .CalendarUnitWeekOfYear | .CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond  | .CalendarUnitWeekday | .CalendarUnitWeekdayOrdinal | .CalendarUnitEra)
     }
     
-    subscript(index: TimeUnitMeasure) -> Int {
-            let value:Int;
-            switch index {
-            case .Seconds:
-                value = self.second
-            case .Minutes:
-                value = self.minute
-            case .Hours:
-                value = self.hour
-            case .Days:
-                value = self.day
-            case .Weeks:
-                value = self.week
-            case .Months:
-                value = self.month
-            case .Years:
-                value = self.year
-            }
-            return value
-    }
-
-
 }
 
 
@@ -344,12 +350,10 @@ public struct TimeFrameUnit {
             cmpts.minute = value
         case .Hours:
             cmpts.hour = value
-            break
         case .Days:
             cmpts.day = value
         case .Weeks:
             cmpts.weekOfYear = value
-            break
         case .Months:
             cmpts.month = value
         case .Years:
@@ -475,6 +479,11 @@ func += (left: NSDate, right: TimeFrameUnit) -> NSDate? {
 }
 
 
+let kSecond = 1
+let kSecondsInMinute = 60
+let kSecondsInHour = 3600
+let kSecondsInDay = 86400
+let kSecondsInWeek = 604800
 
 
 
