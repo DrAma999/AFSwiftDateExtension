@@ -334,8 +334,6 @@ extension NSDate {
     }
     
 }
-var token: dispatch_once_t = 0
-var formatter: NSDateFormatter!
 
 public enum TimeUnitMeasure {
     case Seconds
