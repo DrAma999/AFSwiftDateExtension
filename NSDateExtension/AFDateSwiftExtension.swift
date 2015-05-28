@@ -348,7 +348,7 @@ public enum TimeUnitMeasure {
 }
 
 
-public struct TimeFrameUnit {
+public struct TimeFrame {
     var value: Int
     var unitMeasure: TimeUnitMeasure
     
@@ -379,26 +379,26 @@ public struct TimeFrameUnit {
 
 
 extension Int {
-    var seconds: TimeFrameUnit {
-        return TimeFrameUnit(value: self, unitMeasure:.Seconds);
+    var seconds: TimeFrame {
+        return TimeFrame(value: self, unitMeasure:.Seconds);
     }
-    var minutes: TimeFrameUnit {
-        return TimeFrameUnit(value: self, unitMeasure:.Minutes);
+    var minutes: TimeFrame {
+        return TimeFrame(value: self, unitMeasure:.Minutes);
     }
-    var hours: TimeFrameUnit {
-        return TimeFrameUnit(value: self, unitMeasure:.Hours);
+    var hours: TimeFrame {
+        return TimeFrame(value: self, unitMeasure:.Hours);
     }
-    var days: TimeFrameUnit {
-        return TimeFrameUnit(value: self, unitMeasure:.Days);
+    var days: TimeFrame {
+        return TimeFrame(value: self, unitMeasure:.Days);
     }
-    var weeks: TimeFrameUnit {
-        return TimeFrameUnit(value: self, unitMeasure:.Weeks);
+    var weeks: TimeFrame {
+        return TimeFrame(value: self, unitMeasure:.Weeks);
     }
-    var months: TimeFrameUnit {
-        return TimeFrameUnit(value: self, unitMeasure:.Months);
+    var months: TimeFrame {
+        return TimeFrame(value: self, unitMeasure:.Months);
     }
-    var years: TimeFrameUnit {
-        return TimeFrameUnit(value: self, unitMeasure:.Years);
+    var years: TimeFrame {
+        return TimeFrame(value: self, unitMeasure:.Years);
     }
     
 }
@@ -471,21 +471,21 @@ func >-< (left: NSDate, right: NSDate) -> NSTimeInterval {
 
 // MARK: NSDate and TimeFrame operators overload
 
-func - (left: NSDate, right: TimeFrameUnit) -> NSDate? {
-    let negRight = TimeFrameUnit(value: -right.value, unitMeasure: right.unitMeasure)
+func - (left: NSDate, right: TimeFrame) -> NSDate? {
+    let negRight = TimeFrame(value: -right.value, unitMeasure: right.unitMeasure)
     return NSCalendar.currentCalendar().dateByAddingComponents(negRight.dateComponents(), toDate: left, options: nil)
 }
 
-func + (left: NSDate, right: TimeFrameUnit) -> NSDate? {
+func + (left: NSDate, right: TimeFrame) -> NSDate? {
     return NSCalendar.currentCalendar().dateByAddingComponents(right.dateComponents(), toDate: left, options: nil)
 }
 
-func -= (left: NSDate, right: TimeFrameUnit) -> NSDate? {
-    let negRight = TimeFrameUnit(value: -right.value, unitMeasure: right.unitMeasure)
+func -= (left: NSDate, right: TimeFrame) -> NSDate? {
+    let negRight = TimeFrame(value: -right.value, unitMeasure: right.unitMeasure)
     return NSCalendar.currentCalendar().dateByAddingComponents(negRight.dateComponents(), toDate: left, options: nil)
 }
 
-func += (left: NSDate, right: TimeFrameUnit) -> NSDate? {
+func += (left: NSDate, right: TimeFrame) -> NSDate? {
     return NSCalendar.currentCalendar().dateByAddingComponents(right.dateComponents(), toDate: left, options: nil)
 }
 
