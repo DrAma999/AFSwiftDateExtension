@@ -3,7 +3,7 @@
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
 ![Version](https://img.shields.io/badge/version-0.1.3-blue.svg)
 
-NSDate extension that makes easier to operate with NSDate, its built on the top functionalities of SWIFT to give the best experience and safety.
+`NSDate` extension that makes easier to operate with `NSDate`, its built on the top functionalities of SWIFT to give the best experience and safety.
 
 ## Features
 - Compare dates using common compare operators: >, >=, <, <=
@@ -26,7 +26,7 @@ let d2 = NSDate.dateWithTime(hour: 22, minutes:10)
 let d3 = NSDate.dateWithComponents(year: 1978, month: 5, day: 24, hour: 12);
 ```
 ### Use subscripting to read components
-Using subsscript is possible to obtain only one component or group of componets in a touple of optionals (hour:Int?, minute:Int?, second:Int?, day:Int?, month:Int?, year:Int?). Values not requested are retuned as nil.
+Using subsscript is possible to obtain only one component or group of componets in a touple of optionals `(hour:Int?, minute:Int?, second:Int?, day:Int?, month:Int?, year:Int?)`. Values not requested are retuned as nil.
 ```swift
 let d3 = NSDate.dateWithComponents(year: 1978, month: 5, day: 24, hour: 12);
 let val = d3![.Months] // 5
