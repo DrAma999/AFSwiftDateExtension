@@ -179,7 +179,7 @@ extension NSDate {
             agoBefore = NSLocalizedString("KEY_BEFORE_INTERVAL", comment: "Before")
         }
         else {
-            agoBefore = NSLocalizedString("KEY_BEFORE_INTERVAL", comment: "Ago")
+            agoBefore = NSLocalizedString("KEY_AGO_INTERVAL", comment: "Ago")
         }
         
         let absInterval:Int = abs(Int(interval))
@@ -187,7 +187,7 @@ extension NSDate {
         var number: Int!
         var resto: Int!
         var returnString: String!
-
+        let dateformatter = NSDate.dateFormatter
         switch absInterval {
         case 0:
             unit = NSLocalizedString("KEY_NOW_INTERVAL", comment: "Now")
@@ -215,22 +215,22 @@ extension NSDate {
         case 3600..<86400:
             unit = NSLocalizedString("KEY_TODAY_INTERVAL", comment: "Today")
             NSDate.dateFormatter.dateStyle = .NoStyle
-            NSDate.dateFormatter.dateStyle = .MediumStyle
-            let formattedTime = NSDate.dateFormatter.stringFromDate(self)
+            NSDate.dateFormatter.timeStyle = .MediumStyle
+            let formattedTime = dateformatter.stringFromDate(self)
             returnString =  NSString.localizedStringWithFormat("%@ at %@",unit, formattedTime) as String
         case 86400:
             unit = NSLocalizedString("KEY_YESTERDAY_INTERVAL", comment: "Yesterday")
             returnString =  NSString.localizedStringWithFormat("%@",unit) as String
         case 86400..<172800:
             unit = NSLocalizedString("KEY_YESTERDAY_INTERVAL", comment: "Yesterday")
-            NSDate.dateFormatter.dateStyle = .NoStyle
-            NSDate.dateFormatter.dateStyle = .MediumStyle
-            let formattedTime = NSDate.dateFormatter.stringFromDate(self)
+            dateformatter.dateStyle = .NoStyle
+            dateformatter.timeStyle = .MediumStyle
+            let formattedTime = dateformatter.stringFromDate(self)
             returnString =  NSString.localizedStringWithFormat("%@ at %@",unit, formattedTime) as String
         default:
-            NSDate.dateFormatter.dateStyle = .MediumStyle
-            NSDate.dateFormatter.dateStyle = .MediumStyle
-            let formattedTime = NSDate.dateFormatter.stringFromDate(self)
+            dateformatter.dateStyle = .MediumStyle
+            dateformatter.timeStyle = .MediumStyle
+            let formattedTime = dateformatter.stringFromDate(self)
             returnString =  NSString.localizedStringWithFormat("%@", formattedTime) as String
         }
         return returnString
@@ -320,7 +320,13 @@ extension NSDate {
     static var calendar: NSCalendar {
         return NSCalendar.currentCalendar()
     }
-    static var dateFormatter: NSDateFormatter  {
+    static var dateFormatter: NSDateFormatter    {
+        struct Static {
+             static let instanceDateFormatter = NSDate.createDateFormatter()
+        }
+        return Static.instanceDateFormatter
+    }
+    private class func createDateFormatter() -> NSDateFormatter {
         return NSDateFormatter()
     }
     static var calendarFlags: NSCalendarUnit {
@@ -328,7 +334,8 @@ extension NSDate {
     }
     
 }
-
+var token: dispatch_once_t = 0
+var formatter: NSDateFormatter!
 
 public enum TimeUnitMeasure {
     case Seconds

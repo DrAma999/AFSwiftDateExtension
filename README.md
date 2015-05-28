@@ -1,14 +1,14 @@
 # AFSwiftDateExtension
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
-![Version](https://img.shields.io/badge/version-0.1.2-blue.svg)
+![Version](https://img.shields.io/badge/version-0.1.3-blue.svg)
 
 NSDate extension that makes easier to operate with NSDate, its built on the top functionalities of SWIFT to give the best experience and safety.
 
 ## Features
 - Compare dates using common compare operators: >, >=, <, <=
 - Get interval between dates using that custom operator >-< 
-- Add date components by using aritmethic operators
+- Add date components by using aritmethic operators +, -, +=, -=
 - Curryed functions
 - Use subscripting to access single or group of date components
 

@@ -30,11 +30,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let dateMinusOneDay = date - 1.days
         
-        let string = dateMinusOneDay?.textTimeAgoFromNow()
-        
         let d1 = NSDate.dateWithTime(hour: 22)
         let d2 = NSDate.dateWithTime(hour: 22, minutes:10)
         let d3 = NSDate.dateWithComponents(year: 1978, month: 5, day: 24, hour: 12);
+        
+        let string = newDate?.textTimeAgoFromNow()
+        let string2 = dateMinusOneDay?.textTimeAgoFromNow()
+        let string3 = d3?.textTimeAgoFromNow()
+        
         
         let val = d3![.Months]
         
