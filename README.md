@@ -1,4 +1,4 @@
-# AFSwiftDateExtension
+# ![AFSWifDateExtension](http://cloudintouch.it/wp-content/uploads/2015/05/image.jpg)
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
 ![Version](https://img.shields.io/badge/version-0.1.3-blue.svg)
