@@ -6,11 +6,11 @@
 `NSDate` extension that makes easier to operate with `NSDate`, its built on the top functionalities of SWIFT to give the best experience and safety.
 
 ## Features
-- Compare dates using common compare operators: >, >=, <, <=
-- Get interval between dates using that custom operator >-< 
-- Add date components by using aritmethic operators +, -, +=, -=
-- Curryed functions
-- Use subscripting to access single or group of date components
+- **Compare dates** using common compare operators: `>, >=, <, <=`
+- **Get interval** between dates using that custom operator `>-<` 
+- **Add/remove date components** by using aritmethic operators: `+, -, +=, -=`
+- **Curryed functions**
+- **Use subscripting** to access single or group of date components
 
 ## Requirements
 - iOS7 or above
