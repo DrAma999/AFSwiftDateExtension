@@ -59,6 +59,14 @@ let answer2 = earlierDate! < now
 println("\(answer2)") // true
 
 ```
+
+### Curried functions
+You can easily use the provide curried functions `dateByAddingCalendarComponent` and `dateByRemovingCalendarComponent` to add an remove calendar units
+```swift
+let arrayDate = [NSDate(),NSDate.dateByAddingCalendarComponent(timeUnitMeasure: .Days)(date: NSDate(),value: 4)]
+let addMonth = NSDate.dateByAddingCalendarComponent(timeUnitMeasure: .Months)
+let mapArray = arrayDate.map{addMonth(date:$0!,value:3)}
+```
 ### Install
 Just copy `AFDateSwiftExtension.swift` `file in your project.
 
